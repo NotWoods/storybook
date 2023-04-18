@@ -29,7 +29,7 @@ import { HooksContext } from '../addons';
 import { StoryIndexStore } from './StoryIndexStore';
 import { ArgsStore } from './ArgsStore';
 import { GlobalsStore } from './GlobalsStore';
-import { processCSFFile, prepareStory, normalizeProjectAnnotations } from './csf';
+import { processCSFFile, prepareStory, normalizeProjectAnnotations, prepareContext } from './csf';
 
 const CSF_CACHE_SIZE = 1000;
 const STORY_CACHE_SIZE = 10000;
@@ -264,12 +264,12 @@ export class StoryStore<TRenderer extends Renderer> {
   ): Omit<StoryContextForLoaders<TRenderer>, 'viewMode'> {
     if (!this.globals) throw new Error(`getStoryContext called before initialization`);
 
-    return {
+    return prepareContext({
       ...story,
       args: this.args.get(story.id),
       globals: this.globals.get(),
       hooks: this.hooks[story.id] as unknown,
-    };
+    });
   }
 
   cleanupStory(story: PreparedStory<TRenderer>): void {
