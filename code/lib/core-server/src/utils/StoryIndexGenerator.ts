@@ -547,7 +547,7 @@ export class StoryIndexGenerator {
     } catch (err) {
       this.lastError = err;
       logger.warn(`🚨 ${this.lastError.toString()}`);
-      invariant(this.lastError != null);
+      invariant(this.lastError);
       throw this.lastError;
     }
   }
